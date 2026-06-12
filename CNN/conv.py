@@ -27,6 +27,7 @@ class Conv3x3:
     #forward feeding
     def forward(self, input):
         #takes in 2d numpy array and returns a 3d numpy array of h x w x num filters
+        self.lastInput = input
 
         h, w = input.shape
         output = np.zeros((h-2, w-2, self.numFilters))                  #inititiate vector filled with zeros of shape h-2 x w-2 x number of filters
@@ -42,3 +43,14 @@ class Conv3x3:
 
         return output
 
+    def backProp(self, dLdout, learnRate):
+
+        dLdfilter = np.zeros(self.filters.shape)
+
+        for imRegion, i, j in self.iterateRegions(self.lastInput):
+             for f in range(self.numFilters):
+                 dLdfilter[f] += dLdout[i, j ,f] * imRegion
+        
+        self.filters -= learnRate * dLdfilter
+        
+        return None                                                     #since this is the first function there is no need to return the previous function's loss gradient since there is none
