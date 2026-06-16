@@ -3,3 +3,7 @@ Network in 11/
 notes.md
 recreating.py
 *__pycache__
+.vscode/
+.venv/
+Python 3,9/
+tut1-model.pt
